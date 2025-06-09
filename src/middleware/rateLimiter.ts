@@ -2,7 +2,7 @@ import rateLimit from 'express-rate-limit';
 
 // Rate limiter for authentication routes
 export const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes wait after attempt block
+  windowMs: 5 * 60 * 1000, // 5 minutes wait after attempt block
   max: 5, // A user can make 5 login/register attempt
   message: 'Too many login attempts, please try again after 15 minutes',
   standardHeaders: true,
