@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
 import { supabase } from '../config/supabase';
 
 interface AuthRequest extends Request {
@@ -9,11 +8,7 @@ interface AuthRequest extends Request {
   };
 }
 
-export const authenticateToken = async (
-  req: AuthRequest,
-  res: Response,
-  next: NextFunction
-) => {
+export const authenticateToken = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
@@ -22,7 +17,10 @@ export const authenticateToken = async (
       return res.status(401).json({ message: 'Authentication token required' });
     }
 
-    const { data: { user }, error } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.getUser(token);
 
     if (error || !user) {
       return res.status(403).json({ message: 'Invalid token' });
@@ -34,7 +32,8 @@ export const authenticateToken = async (
     };
 
     next();
+    return;
   } catch (error) {
-    return res.status(500).json({ message: 'Internal server error' });
+    return res.status(500).json({ message: `Internal server error ${error}` });
   }
-}; 
+};

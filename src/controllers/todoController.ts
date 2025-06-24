@@ -15,14 +15,14 @@ export const createTodo = async (req: AuthRequest, res: Response) => {
     if (!userId) {
       return res.status(401).json({
         message: 'Authentication required',
-        details: 'User ID not found in request'
+        details: 'User ID not found in request',
       });
     }
 
     if (!title) {
       return res.status(400).json({
         message: 'Title is required',
-        details: 'Please provide a title for the todo'
+        details: 'Please provide a title for the todo',
       });
     }
 
@@ -34,15 +34,15 @@ export const createTodo = async (req: AuthRequest, res: Response) => {
       },
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       message: 'Todo created successfully',
       todo,
     });
   } catch (error) {
     console.error('Create todo error:', error);
-    res.status(500).json({
+    return res.status(500).json({
       message: 'Failed to create todo',
-      details: error instanceof Error ? error.message : 'Unknown error'
+      details: error instanceof Error ? error.message : 'Unknown error',
     });
   }
 };
@@ -54,7 +54,7 @@ export const getTodos = async (req: AuthRequest, res: Response) => {
     if (!userId) {
       return res.status(401).json({
         message: 'Authentication required',
-        details: 'User ID not found in request'
+        details: 'User ID not found in request',
       });
     }
 
@@ -67,12 +67,12 @@ export const getTodos = async (req: AuthRequest, res: Response) => {
       },
     });
 
-    res.json({ todos });
+    return res.json({ todos });
   } catch (error) {
     console.error('Get todos error:', error);
-    res.status(500).json({
+    return res.status(500).json({
       message: 'Failed to fetch todos',
-      details: error instanceof Error ? error.message : 'Unknown error'
+      details: error instanceof Error ? error.message : 'Unknown error',
     });
   }
 };
@@ -85,7 +85,7 @@ export const getTodoById = async (req: AuthRequest, res: Response) => {
     if (!userId) {
       return res.status(401).json({
         message: 'Authentication required',
-        details: 'User ID not found in request'
+        details: 'User ID not found in request',
       });
     }
 
@@ -98,23 +98,23 @@ export const getTodoById = async (req: AuthRequest, res: Response) => {
     if (!todo) {
       return res.status(404).json({
         message: 'Todo not found',
-        details: `No todo found with id: ${id}`
+        details: `No todo found with id: ${id}`,
       });
     }
 
     if (todo.userId !== userId) {
       return res.status(403).json({
         message: 'Access denied',
-        details: 'You do not have permission to access this todo'
+        details: 'You do not have permission to access this todo',
       });
     }
 
-    res.json({ todo });
+    return res.json({ todo });
   } catch (error) {
     console.error('Get todo by id error:', error);
-    res.status(500).json({
+    return res.status(500).json({
       message: 'Failed to fetch todo',
-      details: error instanceof Error ? error.message : 'Unknown error'
+      details: error instanceof Error ? error.message : 'Unknown error',
     });
   }
 };
@@ -128,7 +128,7 @@ export const updateTodo = async (req: AuthRequest, res: Response) => {
     if (!userId) {
       return res.status(401).json({
         message: 'Authentication required',
-        details: 'User ID not found in request'
+        details: 'User ID not found in request',
       });
     }
 
@@ -141,14 +141,14 @@ export const updateTodo = async (req: AuthRequest, res: Response) => {
     if (!existingTodo) {
       return res.status(404).json({
         message: 'Todo not found',
-        details: `No todo found with id: ${id}`
+        details: `No todo found with id: ${id}`,
       });
     }
 
     if (existingTodo.userId !== userId) {
       return res.status(403).json({
         message: 'Access denied',
-        details: 'You do not have permission to update this todo'
+        details: 'You do not have permission to update this todo',
       });
     }
 
@@ -163,15 +163,15 @@ export const updateTodo = async (req: AuthRequest, res: Response) => {
       },
     });
 
-    res.json({
+    return res.json({
       message: 'Todo updated successfully',
       todo: updatedTodo,
     });
   } catch (error) {
     console.error('Update todo error:', error);
-    res.status(500).json({
+    return res.status(500).json({
       message: 'Failed to update todo',
-      details: error instanceof Error ? error.message : 'Unknown error'
+      details: error instanceof Error ? error.message : 'Unknown error',
     });
   }
 };
@@ -184,7 +184,7 @@ export const deleteTodo = async (req: AuthRequest, res: Response) => {
     if (!userId) {
       return res.status(401).json({
         message: 'Authentication required',
-        details: 'User ID not found in request'
+        details: 'User ID not found in request',
       });
     }
 
@@ -197,14 +197,14 @@ export const deleteTodo = async (req: AuthRequest, res: Response) => {
     if (!existingTodo) {
       return res.status(404).json({
         message: 'Todo not found',
-        details: `No todo found with id: ${id}`
+        details: `No todo found with id: ${id}`,
       });
     }
 
     if (existingTodo.userId !== userId) {
       return res.status(403).json({
         message: 'Access denied',
-        details: 'You do not have permission to delete this todo'
+        details: 'You do not have permission to delete this todo',
       });
     }
 
@@ -214,14 +214,14 @@ export const deleteTodo = async (req: AuthRequest, res: Response) => {
       },
     });
 
-    res.json({
-      message: 'Todo deleted successfully'
+    return res.json({
+      message: 'Todo deleted successfully',
     });
   } catch (error) {
     console.error('Delete todo error:', error);
-    res.status(500).json({
+    return res.status(500).json({
       message: 'Failed to delete todo',
-      details: error instanceof Error ? error.message : 'Unknown error'
+      details: error instanceof Error ? error.message : 'Unknown error',
     });
   }
-}; 
+};
